@@ -8,7 +8,7 @@ import api from '../../services/api';
 
 import Header from '../../components/Header';
 
-import formatValue, { formatDate } from '../../utils/formatValue';
+import formatValue from '../../utils/formatValue';
 
 import { Container, CardContainer, Card, TableContainer } from './styles';
 
@@ -48,7 +48,9 @@ const Dashboard: React.FC = () => {
         transaction => {
           const source = {
             formattedValue: formatValue(transaction.value),
-            formattedDate: formatDate(transaction.created_at),
+            formattedDate: new Intl.DateTimeFormat('pt-BR').format(
+              new Date(transaction.created_at),
+            ),
           };
           return Object.assign(transaction, source);
         },
@@ -111,7 +113,11 @@ const Dashboard: React.FC = () => {
                 <tbody key={transaction.id}>
                   <tr>
                     <td className="title">{transaction.title}</td>
-                    <td className="income">{transaction.formattedValue}</td>
+                    <td className={transaction.type}>
+                      {`${transaction.type === 'outcome' ? '- ' : ''} ${
+                        transaction.formattedValue
+                      }`}
+                    </td>
                     <td>{transaction.category.title}</td>
                     <td>{transaction.formattedDate}</td>
                   </tr>

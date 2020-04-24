@@ -7,9 +7,4 @@ const formatValue = (value: number): string => {
   return formatter.format(value);
 };
 
-const formatDate = (value: Date): string => {
-  return new Intl.DateTimeFormat('pt-BR').format(new Date(value));
-};
-
 export default formatValue;
-export { formatDate };

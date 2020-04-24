@@ -20,99 +20,25 @@ interface FileProps {
   name: string;
   readableSize: string;
 }
-/*
-interface FileProps {
-  file: File;
-  id: string;
-  name: string;
-  readableSize: string;
-  preview: string;
-  progress: number;
-  uploaded: boolean;
-  error: boolean;
-  url: string;
-}
-*/
 
 const Import: React.FC = () => {
   const [uploadedFiles, setUploadedFiles] = useState<FileProps[]>([]);
   const history = useHistory();
 
-  /*
-  function updateFile(id: string, data: {}): void {
-    setUploadedFiles(
-      uploadedFiles.map(uploadedFile => {
-        return uploadedFile.id === id
-          ? { ...uploadedFiles, ...data }
-          : uploadedFile;
-      }) as FileProps[],
-    );
-  }
-  */
-
-  /*
-  async function sendRequisitions(uploadedFile: FileProps): Promise<void> {
-    // -- FormData é um submit de um form HTML em JS.
-    const data = new FormData();
-    data.append('file', uploadedFile.file, uploadedFile.name);
-
-    api
-      .post('/transactions/import', data)
-      .then(response => {
-        updateFile(uploadedFile.id, {
-          uploaded: true,
-          // eslint-disable-next-line no-underscore-dangle
-          id: response.data._id,
-        });
-      })
-      .catch(err => {
-        updateFile(uploadedFile.id, {
-          error: true,
-        });
-      });
-  }
-  */
-
-  /*
   async function handleUpload(): Promise<void> {
-    uploadedFiles.forEach(async file => {
-      await sendRequisitions(file);
-    });
-    history.push('/');
-  }
-  */
-
-  async function handleUpload(): Promise<void> {
-    const data = new FormData();
     try {
-      uploadedFiles.forEach(file => {
+      uploadedFiles.forEach(async file => {
+        const data = new FormData();
         data.append('file', file.file);
+        await api.post('/transactions/import', data);
       });
-      await api.post('/transactions/import', data);
 
-      history.goBack();
+      history.push('/');
     } catch (err) {
       console.log(err.response.error);
     }
   }
 
-  /*
-  function submitFile(files: File[]): void {
-    const newUploadedFiles: FileProps[] = files.map(file => ({
-      file,
-      id: uniqueId(),
-      name: file.name,
-      readableSize: filesize(file.size),
-      preview: URL.createObjectURL(file),
-      progress: 0,
-      uploaded: false,
-      error: false,
-      url: '',
-    }));
-
-    setUploadedFiles(uploadedFiles.concat(newUploadedFiles));
-  }
-  */
   function submitFile(files: File[]): void {
     const newUploadedFiles: FileProps[] = files.map(file => ({
       file,
