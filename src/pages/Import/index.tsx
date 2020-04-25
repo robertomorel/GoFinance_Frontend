@@ -21,6 +21,11 @@ interface FileProps {
   readableSize: string;
 }
 
+/**
+ * Vídeo para melhor entender os componentes de Upload
+ * https://www.youtube.com/watch?v=G5UZmvkLWSQ
+ */
+
 const Import: React.FC = () => {
   const [uploadedFiles, setUploadedFiles] = useState<FileProps[]>([]);
   const history = useHistory();

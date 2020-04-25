@@ -49,11 +49,15 @@ const Upload: React.FC<UploadProps> = ({ onUpload }: UploadProps) => {
      * Uso da "...getInputProps()" -> Faz com que todas estas propriedades do DropZone vá para o input
      */
 
+    /**
+     * Atenção!!!
+     *   No windows, a propriedade accept deve ficar com "application/vnd.ms-excel".
+     *   Também mudar no último teste unitário.
+     *   Valor liberado: "text/csv"
+     */
+
     <>
-      <Dropzone
-        accept="application/vnd.ms-excel"
-        onDropAccepted={files => onUpload(files)}
-      >
+      <Dropzone accept="text/csv" onDropAccepted={files => onUpload(files)}>
         {({ getRootProps, getInputProps, isDragActive, isDragReject }): any => (
           <DropContainer
             {...getRootProps()}
