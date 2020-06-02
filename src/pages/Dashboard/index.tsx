@@ -44,6 +44,18 @@ const Dashboard: React.FC = () => {
 
       const data = response.data as Response;
 
+      /*
+      const formatedTransactions: Transaction[] = data.transactions.map(
+        (transaction: Transaction) => ({
+          ...transaction,
+          formattedValue: formatValue(transaction.value),
+          formattedDate: new Intl.DateTimeFormat('pt-BR').format(
+              new Date(transaction.created_at),
+            ),
+        }),
+      );
+      */
+
       const formatedTransactions: Transaction[] = data.transactions.map(
         transaction => {
           const source = {
